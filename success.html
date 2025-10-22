@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Registration Successful</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    /* Small overrides for the success layout */
+    .card {padding:18px;border-radius:12px;background:#ffffff}
+    .info-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f1f5f9}
+    .info-row:last-child{border-bottom:none}
+    .label{color:var(--muted);font-weight:600}
+    .value{color:#111827}
+    .actions{margin-top:18px}
+  </style>
+</head>
+<body>
+  <main class="container">
+    <h1>You're registered</h1>
+    <div class="card" id="userCard">
+      <div id="noData" class="result">No registration data found. Please go back to register.</div>
+      <div id="dataView" style="display:none">
+        <div class="info-row"><div class="label">Full name</div><div class="value" id="rvName"></div></div>
+        <div class="info-row"><div class="label">Email</div><div class="value" id="rvEmail"></div></div>
+        <div class="info-row"><div class="label">Proficiency</div><div class="value" id="rvProf"></div></div>
+        <div class="actions"><button id="backBtn">Back to register</button></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function(){
+      const data = sessionStorage.getItem('registration');
+      const noData = document.getElementById('noData');
+      const dataView = document.getElementById('dataView');
+      if(!data){
+        noData.style.display = 'block';
+        dataView.style.display = 'none';
+        return;
+      }
+      const json = JSON.parse(data);
+      document.getElementById('rvName').textContent = json.fullName || '';
+      document.getElementById('rvEmail').textContent = json.email || '';
+      document.getElementById('rvProf').textContent = json.proficiency || '';
+      noData.style.display = 'none';
+      dataView.style.display = 'block';
+
+      document.getElementById('backBtn').addEventListener('click', ()=>{
+        // keep data in session, navigate back
+        location.href = 'index.html';
+      });
+    })();
+  </script>
+</body>
+</html>
